@@ -1,5 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import OSS, { Options } from 'ali-oss';
+import { Options } from 'ali-oss';
+import * as OSS from 'ali-oss';
 
 import { ALI_OSS_OPTIONS, TAG } from './contants';
 import {
@@ -35,9 +36,10 @@ export class AliOssService {
       options.accessKeyId &&
       options.accessKeySecret &&
       options.region &&
-      options.bucket
+      typeof options.bucket === 'string'
     ) {
       this.defaultOptions = options as Options;
+      this.clients[options.bucket] = new OSS(options as Options);
     }
     this.logger.log(`[${TAG}] AliOssService client init`);
   }
@@ -62,7 +64,7 @@ export class AliOssService {
       ) {
         this.clients[bucket] = new OSS(this.options[bucket]);
       } else if (
-        this.options.bucket == null &&
+        this.options.bucket != null &&
         this.options.bucket === bucket
       ) {
         this.clients[bucket] = new OSS(this.options as Options);
