@@ -1,6 +1,6 @@
 {
   "name": "nest-ali-oss",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "nestjs for ali oss",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
